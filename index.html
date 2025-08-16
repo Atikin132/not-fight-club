@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not Fight Club</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="icon" href="assets/favicon.ico">
+</head>
+
+<body>
+  <header>
+    <p class="page-title">Main</p>
+    <nav>
+      <ul class="header-menu">
+        <li><button class="home-button header-buttons" onclick="showScreen('home')"></button></li>
+        <li><button class="profile-button header-buttons" onclick="showScreen('profile')"></button></li>
+        <li><button class="settings-button header-buttons" onclick="showScreen('settings')"></button></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="main" class="screen">
+      <button class="fight-button" onclick="showScreen('battle')">Fight!</button>
+    </section>
+    <section id="battle" class="screen">
+      <div class="fight-arena">
+        <div class="player-enemy-character">
+          <p class="player-name">111</p>
+          <img src="./assets/img/character/default.jpg" alt="Character" class="character-img">
+          <div class="health-container">
+            <progress class="player-health-bar" value="150" max="150"></progress>
+            <p>150/150</p>
+          </div>
+        </div>
+        <div class="controls-panel">
+          <p>Please pick 1 Attack zone and 2 Defence zones</p>
+          <div class="attack-defense">
+            <div class="attack">
+              <p>Attack Zones</p>
+              <label>
+                Head
+                <input type="radio">
+              </label>
+              <label>
+                Neck
+                <input type="radio">
+              </label>
+              <label>
+                Body
+                <input type="radio">
+              </label>
+              <label>
+                Belly
+                <input type="radio">
+              </label>
+              <label>
+                Legs
+                <input type="radio">
+              </label>
+            </div>
+            <div class="attack-defense-border"></div>
+            <div class="defense">
+              <p>Defence Zones</p>
+              <label>
+                <input type="radio">
+                Head
+              </label>
+              <label>
+                <input type="radio">
+                Neck
+              </label>
+              <label>
+                <input type="radio">
+                Body
+              </label>
+              <label>
+                <input type="radio">
+                Belly
+              </label>
+              <label>
+                <input type="radio">
+                Legs
+              </label>
+            </div>
+          </div>
+          <button class="attack-button">Attack!</button>
+        </div>
+        <div class="player-enemy-character">
+          <p class="enemy-name">Spider</p>
+          <img src="./assets/img/enemy/spider_100.png" alt="Enemy" class="character-img">
+          <div class="health-container">
+            <progress class="enemy-health-bar" value="100" max="100"></progress>
+            <p>100/100</p>
+          </div>
+        </div>
+      </div>
+      <div class="fight-log">
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+        <p>Hello, World!</p>
+      </div>
+    </section>
+    <section id="profile" class="screen">
+      <img src="./assets/img/character/default.jpg" alt="Character" class="character-img">
+      <div class="profile-info">
+        <p class="profile-name">111</p>
+        <div class="profile-results">
+          <p class="wins-results">Wins: 0</p>
+          <p class="loses-results">Loses: 0</p>
+        </div>
+      </div>
+    </section>
+    <section id="settings" class="screen">
+      <p>Profile Name: </p>
+      <div class="profile-name-settings">111</div>
+      <button class="edit-button-settings">Edit</button>
+    </section>
+    <section id="register" class="screen">
+      <h2>Create Your Character</h2>
+      <form class="register-form">
+        <label>
+          Character Name <br>
+          <input type="text" name="name" required data-input-register>
+        </label>
+        <button type="submit" class="create-character-button">Create Character</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p>© 2025</p>
+      <a href="https://rs.school/" target="_blank">The Rolling Scopes School</a>
+      <a href="https://github.com/Atikin132" target="_blank">Atikin132</a>
+    </div>
+    </div>
+  </footer>
+  <script src="./main.js"></script>
+</body>
+
+</html>
