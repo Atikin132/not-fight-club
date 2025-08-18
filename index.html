@@ -89,7 +89,7 @@
         </div>
         <div class="player-enemy-character">
           <p class="enemy-name">Spider</p>
-          <img src="./assets/img/enemy/spider_100.png" alt="Enemy" class="character-img">
+          <img src="./assets/img/enemy/spider_100.png" alt="Enemy" class="enemy-img">
           <div class="health-container">
             <progress class="enemy-health-bar" value="100" max="100"></progress>
             <p>100/100</p>
@@ -131,7 +131,10 @@
       </div>
     </section>
     <section id="profile" class="screen">
-      <img src="./assets/img/character/default.jpg" alt="Character" class="character-img">
+      <div class="character-container" data-character-container>
+        <img src="./assets/img/character/default.jpg" alt="Character" class="character-img" data-img-profile>
+        <div class="edit-character" data-edit-character></div>
+      </div>
       <div class="profile-info">
         <p class="profile-name">111</p>
         <div class="profile-results">
@@ -139,11 +142,34 @@
           <p class="loses-results">Loses: 0</p>
         </div>
       </div>
+      <div class="form-overlay" data-form-overlay></div>
+      <form class="character-form hidden" data-characters-form>
+        <div class="character-form-container" data-character-form-container1>
+          <img src="./assets/img/character/default.jpg" alt="Character" class="character-img-form" data-img-form1>
+          <div class="confirm-character" data-confirm-character1></div>
+        </div>
+        <div class="character-form-container" data-character-form-container2>
+          <img src="./assets/img/character/avatar1.png" alt="Character" class="character-img-form" data-img-form2>
+          <div class="confirm-character" data-confirm-character2></div>
+        </div>
+        <div class="character-form-container" data-character-form-container3>
+          <img src="./assets/img/character/avatar2.jpg" alt="Character" class="character-img-form" data-img-form3>
+          <div class="confirm-character" data-confirm-character3></div>
+        </div>
+        <div class="character-form-container" data-character-form-container4>
+          <img src="./assets/img/character/avatar3.jpg" alt="Character" class="character-img-form" data-img-form4>
+          <div class="confirm-character" data-confirm-character4></div>
+        </div>
+        <div class="cross" data-cross-form></div>
+      </form>
     </section>
     <section id="settings" class="screen">
       <p>Profile Name: </p>
-      <div class="profile-name-settings">111</div>
-      <button class="edit-button-settings">Edit</button>
+      <div class="profile-name-settings" data-profile-name-settings>111</div>
+      <form data-form-name-settings>
+        <input type="text" maxlength="15" class="input-name-settings" data-input-name-settings required>
+      </form>
+      <button class="edit-button-settings" onclick="editNickName()" data-edit-button>Edit</button>
     </section>
     <section id="register" class="screen">
       <h2>Create Your Character</h2>
