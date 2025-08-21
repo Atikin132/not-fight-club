@@ -31,7 +31,7 @@
           <img src="./assets/img/character/default.jpg" alt="Character" class="character-img">
           <div class="health-container">
             <progress class="player-health-bar" value="150" max="150"></progress>
-            <p>150/150</p>
+            <p><span class="player-lives-left">150</span>/150</p>
           </div>
         </div>
         <div class="controls-panel">
@@ -39,95 +39,75 @@
           <div class="attack-defense">
             <div class="attack">
               <p>Attack Zones</p>
-              <label>
+              <label class="label-atack-defence">
                 Head
-                <input type="radio">
+                <input type="radio" name="attackOption" value="Head" class="input-atack-defence">
               </label>
-              <label>
+              <label class="label-atack-defence">
                 Neck
-                <input type="radio">
+                <input type="radio" name="attackOption" value="Neck" class="input-atack-defence">
               </label>
-              <label>
+              <label class="label-atack-defence">
                 Body
-                <input type="radio">
+                <input type="radio" name="attackOption" value="Body" class="input-atack-defence">
               </label>
-              <label>
+              <label class="label-atack-defence">
                 Belly
-                <input type="radio">
+                <input type="radio" name="attackOption" value="Belly" class="input-atack-defence">
               </label>
-              <label>
+              <label class="label-atack-defence">
                 Legs
-                <input type="radio">
+                <input type="radio" name="attackOption" value="Legs" class="input-atack-defence">
               </label>
             </div>
             <div class="attack-defense-border"></div>
             <div class="defense">
               <p>Defence Zones</p>
-              <label>
-                <input type="radio">
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Head"> Head</label>
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Neck"> Neck</label>
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Body"> Body</label>
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Belly"> Belly</label>
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Legs"> Legs</label>
+
+
+
+
+
+
+
+              <!-- <label class="label-atack-defence">
+                <input type="radio" class="input-atack-defence">
                 Head
               </label>
-              <label>
-                <input type="radio">
+              <label class="label-atack-defence">
+                <input type="radio" class="input-atack-defence">
                 Neck
               </label>
-              <label>
-                <input type="radio">
+              <label class="label-atack-defence">
+                <input type="radio" class="input-atack-defence">
                 Body
               </label>
-              <label>
-                <input type="radio">
+              <label class="label-atack-defence">
+                <input type="radio" class="input-atack-defence">
                 Belly
               </label>
-              <label>
-                <input type="radio">
+              <label class="label-atack-defence">
+                <input type="radio" class="input-atack-defence">
                 Legs
-              </label>
+              </label> -->
             </div>
           </div>
-          <button class="attack-button">Attack!</button>
+          <button class="attack-button" data-attack-button>Attack!</button>
         </div>
-        <div class="player-enemy-character">
-          <p class="enemy-name">Spider</p>
-          <img src="./assets/img/enemy/spider_100.png" alt="Enemy" class="enemy-img">
-          <div class="health-container">
-            <progress class="enemy-health-bar" value="100" max="100"></progress>
-            <p>100/100</p>
-          </div>
-        </div>
+        <div class="player-enemy-character" data-enemy></div>
       </div>
-      <div class="fight-log">
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
-        <p>Hello, World!</p>
+      <div class="fight-log" data-fight-log>
+
       </div>
     </section>
     <section id="profile" class="screen">
