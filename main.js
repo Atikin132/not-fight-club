@@ -17,21 +17,12 @@ const сharacterСontainer = document.querySelector('[data-character-container]'
 const charactersForm = document.querySelector('[data-characters-form]');
 const cross = document.querySelector('[data-cross-form]');
 const formOverlay = document.querySelector('[data-form-overlay]');
-const characterFormContainer1 = document.querySelector('[data-character-form-container1]');
-const imgForm1 = document.querySelector('[data-img-form1]');
-const confirmCharacter1 = document.querySelector('[data-confirm-character1]');
-const characterFormContainer2 = document.querySelector('[data-character-form-container2]');
-const imgForm2 = document.querySelector('[data-img-form2]');
-const confirmCharacter2 = document.querySelector('[data-confirm-character2]');
-const characterFormContainer3 = document.querySelector('[data-character-form-container3]');
-const imgForm3 = document.querySelector('[data-img-form3]');
-const confirmCharacter3 = document.querySelector('[data-confirm-character3]');
-const characterFormContainer4 = document.querySelector('[data-character-form-container4]');
-const imgForm4 = document.querySelector('[data-img-form4]');
-const confirmCharacter4 = document.querySelector('[data-confirm-character4]');
+const characterFormContainer = document.querySelectorAll('[data-character-form-container]');
 const enemy = document.querySelector('[data-enemy]');
 const attackBtn = document.querySelector('[data-attack-button]');
 const fightLog = document.querySelector('[data-fight-log]');
+const wins = document.querySelector('[data-wins]');
+const loses = document.querySelector('[data-loses]');
 
 let playerName = '';
 
@@ -93,6 +84,8 @@ function init() {
     updateName(name);
     updateCharacter(localStorage.getItem('characterImage'));
     showScreen('home');
+    wins.textContent = localStorage.getItem('wins');
+    loses.textContent = localStorage.getItem('loses');
   } else {
     document.querySelector('header').style.display = 'none';
     document.querySelector('footer').style.display = 'none';
@@ -105,6 +98,8 @@ registerForm.addEventListener('submit', () => {
   if (name) {
     localStorage.setItem('characterName', name);
     localStorage.setItem('characterImage', './assets/img/character/default.jpg');
+    localStorage.setItem('wins', '0');
+    localStorage.setItem('loses', '0');
     updateName(name);
     updateCharacter('./assets/img/character/default.jpg');
     showScreen('home');
@@ -137,80 +132,26 @@ formOverlay.addEventListener('click', () => {
   formOverlay.style.display = 'none';
 })
 
-characterFormContainer1.addEventListener('mouseenter', () => {
-  imgForm1.style.opacity = '0.5';
-  confirmCharacter1.style.display = 'block';
-});
+characterFormContainer.forEach(container => {
+  container.addEventListener('mouseenter', () => {
+    container.querySelector('.character-img-form').style.opacity = '0.5';
+    container.querySelector('.confirm-character').style.display = 'block';
+  });
 
-characterFormContainer1.addEventListener('mouseleave', () => {
-  imgForm1.style.opacity = '1';
-  confirmCharacter1.style.display = 'none';
-});
-characterFormContainer2.addEventListener('mouseenter', () => {
-  imgForm2.style.opacity = '0.5';
-  confirmCharacter2.style.display = 'block';
-});
+  container.addEventListener('mouseleave', () => {
+    container.querySelector('.character-img-form').style.opacity = '1';
+    container.querySelector('.confirm-character').style.display = 'none';
+  });
 
-characterFormContainer2.addEventListener('mouseleave', () => {
-  imgForm2.style.opacity = '1';
-  confirmCharacter2.style.display = 'none';
-});
-characterFormContainer3.addEventListener('mouseenter', () => {
-  imgForm3.style.opacity = '0.5';
-  confirmCharacter3.style.display = 'block';
-});
-
-characterFormContainer3.addEventListener('mouseleave', () => {
-  imgForm3.style.opacity = '1';
-  confirmCharacter3.style.display = 'none';
-});
-characterFormContainer4.addEventListener('mouseenter', () => {
-  imgForm4.style.opacity = '0.5';
-  confirmCharacter4.style.display = 'block';
-});
-
-characterFormContainer4.addEventListener('mouseleave', () => {
-  imgForm4.style.opacity = '1';
-  confirmCharacter4.style.display = 'none';
-});
-
-confirmCharacter1.addEventListener('click', () => {
-  charactersForm.classList.toggle('hidden');
-  formOverlay.style.display = 'none';
-  localStorage.setItem('characterImage', './assets/img/character/default.jpg');
-  updateCharacter('./assets/img/character/default.jpg');
+  container.querySelector('.confirm-character').addEventListener('click', () => {
+    charactersForm.classList.toggle('hidden');
+    formOverlay.style.display = 'none';
+    const imageUrl = container.querySelector('.character-img-form').src;
+    const relativePath = imageUrl.replace(/^.*\/assets/, './assets');
+    localStorage.setItem('characterImage', relativePath);
+    updateCharacter(relativePath);
+  });
 })
-confirmCharacter2.addEventListener('click', () => {
-  charactersForm.classList.toggle('hidden');
-  formOverlay.style.display = 'none';
-  localStorage.setItem('characterImage', './assets/img/character/avatar1.png');
-  updateCharacter('./assets/img/character/avatar1.png');
-})
-confirmCharacter3.addEventListener('click', () => {
-  charactersForm.classList.toggle('hidden');
-  formOverlay.style.display = 'none';
-  localStorage.setItem('characterImage', './assets/img/character/avatar2.jpg');
-  updateCharacter('./assets/img/character/avatar2.jpg');
-})
-confirmCharacter4.addEventListener('click', () => {
-  charactersForm.classList.toggle('hidden');
-  formOverlay.style.display = 'none';
-  localStorage.setItem('characterImage', './assets/img/character/avatar3.jpg');
-  updateCharacter('./assets/img/character/avatar3.jpg');
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 const enemysArray = [
   {
@@ -341,103 +282,33 @@ attackBtn.addEventListener('click', () => {
         const spiderAttackZone2 = attackDefenseArray[randomNumberSpiderAttack2];
         const spiderDefense = attackDefenseArray[randomNumberSpiderDefense];
 
-        const attackPlayerPower = critOrNormalAttack();
-        if (attackPlayerPower === 15) {
-          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPlayerPower;
+        const attackPlayerPowerSpider = critOrNormalAttack();
+        if (attackPlayerPowerSpider === 15) {
+          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPlayerPowerSpider;
           enemy.querySelector('.lives-left').textContent = enemy.querySelector('.enemy-health-bar').value;
           if (playerAttackZone === spiderDefense) {
-            critAttackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPower);
+            critAttackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPowerSpider);
           }
           else {
-            attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPower);
+            attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPowerSpider);
           }
         }
         else if (playerAttackZone !== spiderDefense) {
-          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPlayerPower;
+          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPlayerPowerSpider;
           enemy.querySelector('.lives-left').textContent = enemy.querySelector('.enemy-health-bar').value;
-          attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPower);
+          attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPowerSpider);
         }
         else {
-          defenseLog(playerName, enemyNameForAttackBtn, playerAttackZone)
+          defenseLog(playerName, enemyNameForAttackBtn, playerAttackZone);
         }
         const spiderAttackPower1 = critOrNormalAttack();
         const spiderAttackPower2 = critOrNormalAttack();
-        spiderAttack(spiderAttackPower1, spiderAttackZone1, playerDefense1, playerDefense2, enemyNameForAttackBtn)
-        spiderAttack(spiderAttackPower2, spiderAttackZone2, playerDefense1, playerDefense2, enemyNameForAttackBtn)
+        enemyAttack(spiderAttackPower1, spiderAttackZone1, playerDefense1, playerDefense2, enemyNameForAttackBtn);
+        enemyAttack(spiderAttackPower2, spiderAttackZone2, playerDefense1, playerDefense2, enemyNameForAttackBtn);
 
-        // if (spiderAttackPower1 === 15) {
-        //   playerHealthBar.value = playerHealthBar.value - spiderAttackPower1;
-        //   playerLivesLeft.textContent = playerHealthBar.value;
-        //   if (spiderAttackZone1 === playerDefense1 || spiderAttackZone1 === playerDefense2) {
-        //     critAttackLog(enemyNameForAttackBtn, playerName, spiderAttackZone1, spiderAttackPower1);
-        //   }
-        //   else {
-        //     attackLog(enemyNameForAttackBtn, playerName, spiderAttackZone1, spiderAttackPower1);
-        //   }
-        // }
-        // else if (spiderAttackZone1 !== playerDefense1 && spiderAttackZone1 !== playerDefense2) {
-        //   playerHealthBar.value = playerHealthBar.value - spiderAttackPower1;
-        //   playerLivesLeft.textContent = playerHealthBar.value;
-        //   attackLog(enemyNameForAttackBtn, playerName, spiderAttackZone1, spiderAttackPower1);
-        // }
-        // else {
-        //   defenseLog(enemyNameForAttackBtn, playerName, spiderAttackZone1);
-        // }
-
-
-        // if (spiderAttackPower2 === 15) {
-        //   playerHealthBar.value = playerHealthBar.value - spiderAttackPower2;
-        //   playerLivesLeft.textContent = playerHealthBar.value;
-        //   if (spiderAttackZone2 === playerDefense1 || spiderAttackZone2 === playerDefense2) {
-        //     critAttackLog(enemyNameForAttackBtn, playerName, spiderAttackZone2, spiderAttackPower2);
-        //   }
-        //   else {
-        //     attackLog(enemyNameForAttackBtn, playerName, spiderAttackZone2, spiderAttackPower2);
-        //   }
-        // }
-        // else if (spiderAttackZone2 !== playerDefense1 && spiderAttackZone2 !== playerDefense2) {
-        //   playerHealthBar.value = playerHealthBar.value - spiderAttackPower2;
-        //   playerLivesLeft.textContent = playerHealthBar.value;
-        //   attackLog(enemyNameForAttackBtn, playerName, spiderAttackZone2, spiderAttackPower2);
-        // }
-        // else {
-        //   defenseLog(enemyNameForAttackBtn, playerName, spiderAttackZone2);
-        // }
-
-
-        // if (spiderAttackZone1 !== playerDefense1 && spiderAttackZone1 !== playerDefense2) {
-        //   const attackPower = critOrNormalAttack();
-        //   playerHealthBar.value = playerHealthBar.value - attackPower;
-        //   playerLivesLeft.textContent = playerHealthBar.value;
-        //   attackLog(enemyNameForAttackBtn, playerName, spiderAttackZone1, attackPower);
-        // } else {
-        //   defenseLog(enemyNameForAttackBtn, playerName, spiderAttackZone1);
-        // }
-        // if (spiderAttackZone2 !== playerDefense1 && spiderAttackZone2 !== playerDefense2) {
-        //   const attackPower = critOrNormalAttack();
-        //   playerHealthBar.value = playerHealthBar.value - attackPower;
-        //   playerLivesLeft.textContent = playerHealthBar.value;
-        //   attackLog(enemyNameForAttackBtn, playerName, spiderAttackZone2, attackPower);
-        // }
-        // else {
-        //   defenseLog(enemyNameForAttackBtn, playerName, spiderAttackZone2);
-        // }
-        if (enemy.querySelector('.enemy-health-bar').value <= 0 && playerHealthBar.value <= 0) {
-          alert('Draw!!!');
-          attackBtn.style.opacity = '0.5';
-          attackBtn.style.cursor = 'not-allowed';
-        }
-        if (enemy.querySelector('.enemy-health-bar').value <= 0) {
-          alert('You win!!!');
-          attackBtn.style.opacity = '0.5';
-          attackBtn.style.cursor = 'not-allowed';
-        }
-        if (playerHealthBar.value <= 0) {
-          alert('You lose!!!');
-          attackBtn.style.opacity = '0.5';
-          attackBtn.style.cursor = 'not-allowed';
-        }
+        winLoseDraw();
         break;
+
       case 'Spacemarine':
         const randomNumberSpacemarineAttack = Math.floor(Math.random() * attackDefenseArray.length);
         const randomNumberSpacemarineDefense1 = Math.floor(Math.random() * attackDefenseArray.length);
@@ -448,30 +319,34 @@ attackBtn.addEventListener('click', () => {
         const spacemarineAttackZone = attackDefenseArray[randomNumberSpacemarineAttack];
         const spacemarineDefenseZone1 = attackDefenseArray[randomNumberSpacemarineDefense1];
         const spacemarineDefenseZone2 = attackDefenseArray[randomNumberSpacemarineDefense2];
-        if (playerAttackZone !== spacemarineDefenseZone1 && playerAttackZone !== spacemarineDefenseZone2) {
-          const attackPower = critOrNormalAttack();
-          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPower;
+
+        const attackPlayerPowerSpacemarine = critOrNormalAttack();
+
+        if (attackPlayerPowerSpacemarine === 15) {
+          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPlayerPowerSpacemarine;
           enemy.querySelector('.lives-left').textContent = enemy.querySelector('.enemy-health-bar').value;
-          attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPower);
+          if (playerAttackZone === spacemarineDefenseZone1 || playerAttackZone === spacemarineDefenseZone2) {
+            critAttackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPowerSpacemarine);
+          }
+          else {
+            attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPowerSpacemarine);
+          }
+        }
+        else if (playerAttackZone !== spacemarineDefenseZone1 && playerAttackZone !== spacemarineDefenseZone2) {
+          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPlayerPowerSpacemarine;
+          enemy.querySelector('.lives-left').textContent = enemy.querySelector('.enemy-health-bar').value;
+          attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPowerSpacemarine);
         }
         else {
-          defenseLog(playerName, enemyNameForAttackBtn, playerAttackZone)
-        }
-        if (spacemarineAttackZone !== playerDefense1 && spacemarineAttackZone !== playerDefense2) {
-          const attackPower = critOrNormalAttack();
-          playerHealthBar.value = playerHealthBar.value - attackPower;
-          playerLivesLeft.textContent = playerHealthBar.value;
-          attackLog(enemyNameForAttackBtn, playerName, spacemarineAttackZone, attackPower);
-        } else {
-          defenseLog(enemyNameForAttackBtn, playerName, spacemarineAttackZone);
+          defenseLog(playerName, enemyNameForAttackBtn, playerAttackZone);
         }
 
-        if (enemy.querySelector('.enemy-health-bar').value === 0) {
-          alert('You win!!!');
-          attackBtn.style.opacity = '0.5';
-          attackBtn.style.cursor = 'not-allowed';
-        }
+        const spacemarineAttackPower = critOrNormalAttack();
+        enemyAttack(spacemarineAttackPower, spacemarineAttackZone, playerDefense1, playerDefense2, enemyNameForAttackBtn);
+
+        winLoseDraw();
         break;
+
       case 'Snow troll':
         const randomNumberSnowTrollAttack = Math.floor(Math.random() * attackDefenseArray.length);
         const randomNumberSnowTrollDefense1 = Math.floor(Math.random() * attackDefenseArray.length);
@@ -481,12 +356,6 @@ attackBtn.addEventListener('click', () => {
         while (randomNumberSnowTrollDefense2 === randomNumberSnowTrollDefense1) {
           randomNumberSnowTrollDefense2 = Math.floor(Math.random() * attackDefenseArray.length);
         }
-        console.log("randomNumberSnowTrollDefense1" + randomNumberSnowTrollDefense1);
-
-        console.log("randomNumberSnowTrollDefense2" + randomNumberSnowTrollDefense2);
-        console.log("randomNumberSnowTrollDefense3" + randomNumberSnowTrollDefense3);
-
-
         while (randomNumberSnowTrollDefense3 === randomNumberSnowTrollDefense1 || randomNumberSnowTrollDefense3 === randomNumberSnowTrollDefense2) {
           randomNumberSnowTrollDefense3 = Math.floor(Math.random() * attackDefenseArray.length);
         }
@@ -496,29 +365,31 @@ attackBtn.addEventListener('click', () => {
         const snowTrollDefenseZone2 = attackDefenseArray[randomNumberSnowTrollDefense2];
         const snowTrollDefenseZone3 = attackDefenseArray[randomNumberSnowTrollDefense3];
 
-        if (playerAttackZone !== snowTrollDefenseZone1 && playerAttackZone !== snowTrollDefenseZone2 && playerAttackZone !== snowTrollDefenseZone3) {
-          const attackPower = critOrNormalAttack();
-          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPower;
+        const attackPlayerPowerSnowTroll = critOrNormalAttack();
+
+        if (attackPlayerPowerSnowTroll === 15) {
+          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPlayerPowerSnowTroll;
           enemy.querySelector('.lives-left').textContent = enemy.querySelector('.enemy-health-bar').value;
-          attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPower);
+          if (playerAttackZone === snowTrollDefenseZone1 || playerAttackZone === snowTrollDefenseZone2 || playerAttackZone === snowTrollDefenseZone3) {
+            critAttackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPowerSnowTroll);
+          }
+          else {
+            attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPowerSnowTroll);
+          }
+        }
+        else if (playerAttackZone !== snowTrollDefenseZone1 && playerAttackZone !== snowTrollDefenseZone2 && playerAttackZone !== snowTrollDefenseZone3) {
+          enemy.querySelector('.enemy-health-bar').value = enemy.querySelector('.enemy-health-bar').value - attackPlayerPowerSnowTroll;
+          enemy.querySelector('.lives-left').textContent = enemy.querySelector('.enemy-health-bar').value;
+          attackLog(playerName, enemyNameForAttackBtn, playerAttackZone, attackPlayerPowerSnowTroll);
         }
         else {
-          defenseLog(playerName, enemyNameForAttackBtn, playerAttackZone)
-        }
-        if (snowTrollAttackZone !== playerDefense1 && snowTrollAttackZone !== playerDefense2) {
-          const attackPower = critOrNormalAttack();
-          playerHealthBar.value = playerHealthBar.value - attackPower;
-          playerLivesLeft.textContent = playerHealthBar.value;
-          attackLog(enemyNameForAttackBtn, playerName, snowTrollAttackZone, attackPower);
-        } else {
-          defenseLog(enemyNameForAttackBtn, playerName, snowTrollAttackZone);
+          defenseLog(playerName, enemyNameForAttackBtn, playerAttackZone);
         }
 
-        if (enemy.querySelector('.enemy-health-bar').value === 0) {
-          alert('You win!!!');
-          attackBtn.style.opacity = '0.5';
-          attackBtn.style.cursor = 'not-allowed';
-        }
+        const snowTrollAttackPower = critOrNormalAttack();
+        enemyAttack(snowTrollAttackPower, snowTrollAttackZone, playerDefense1, playerDefense2, enemyNameForAttackBtn);
+
+        winLoseDraw();
         break;
     }
 
@@ -557,31 +428,52 @@ function critAttackLog(attacker, defender, attackZone, damage) {
 }
 
 const critOrNormalAttack = () => {
-  return Math.random() < 0.5 ? critAttackPower : normalAttackPower;
+  const randomNumber = Math.floor(Math.random() * 10);
+  return randomNumber > 7 ? critAttackPower : normalAttackPower;
 }
 
-function spiderAttack(spiderAttackPower, spiderAttackZone, playerDefense1, playerDefense2, enemyNameForAttackBtn){
-  if (spiderAttackPower === 15) {
-    playerHealthBar.value = playerHealthBar.value - spiderAttackPower;
+function enemyAttack(enemyAttackPower, enemyAttackZone, playerDefense1, playerDefense2, enemyNameForAttackBtn) {
+  if (enemyAttackPower === 15) {
+    playerHealthBar.value = playerHealthBar.value - enemyAttackPower;
     playerLivesLeft.textContent = playerHealthBar.value;
-    if (spiderAttackZone === playerDefense1 || spiderAttackZone === playerDefense2) {
-      critAttackLog(enemyNameForAttackBtn, playerName, spiderAttackZone, spiderAttackPower);
+    if (enemyAttackZone === playerDefense1 || enemyAttackZone === playerDefense2) {
+      critAttackLog(enemyNameForAttackBtn, playerName, enemyAttackZone, enemyAttackPower);
     }
     else {
-      attackLog(enemyNameForAttackBtn, playerName, spiderAttackZone, spiderAttackPower);
+      attackLog(enemyNameForAttackBtn, playerName, enemyAttackZone, enemyAttackPower);
     }
   }
-  else if (spiderAttackZone !== playerDefense1 && spiderAttackZone !== playerDefense2) {
-    playerHealthBar.value = playerHealthBar.value - spiderAttackPower;
+  else if (enemyAttackZone !== playerDefense1 && enemyAttackZone !== playerDefense2) {
+    playerHealthBar.value = playerHealthBar.value - enemyAttackPower;
     playerLivesLeft.textContent = playerHealthBar.value;
-    attackLog(enemyNameForAttackBtn, playerName, spiderAttackZone, spiderAttackPower);
+    attackLog(enemyNameForAttackBtn, playerName, enemyAttackZone, enemyAttackPower);
   }
   else {
-    defenseLog(enemyNameForAttackBtn, playerName, spiderAttackZone);
+    defenseLog(enemyNameForAttackBtn, playerName, enemyAttackZone);
   }
 }
 
-
+function winLoseDraw() {
+  if (enemy.querySelector('.enemy-health-bar').value <= 0 && playerHealthBar.value <= 0) {
+    alert('Draw!!!');
+    attackBtn.style.opacity = '0.5';
+    attackBtn.style.cursor = 'not-allowed';
+  }
+  else if (enemy.querySelector('.enemy-health-bar').value <= 0) {
+    alert('You win!!!');
+    attackBtn.style.opacity = '0.5';
+    attackBtn.style.cursor = 'not-allowed';
+    wins.textContent = Number(wins.textContent) + 1;
+    localStorage.setItem('wins', wins.textContent);
+  }
+  else if (playerHealthBar.value <= 0) {
+    alert('You lose!!!');
+    attackBtn.style.opacity = '0.5';
+    attackBtn.style.cursor = 'not-allowed';
+    loses.textContent = Number(loses.textContent) + 1;
+    localStorage.setItem('loses', loses.textContent);
+  }
+}
 
 
 init();
