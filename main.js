@@ -23,8 +23,16 @@ const attackBtn = document.querySelector('[data-attack-button]');
 const fightLog = document.querySelector('[data-fight-log]');
 const wins = document.querySelector('[data-wins]');
 const loses = document.querySelector('[data-loses]');
+const playerHealthBar = document.querySelector('.player-health-bar');
+const playerLivesLeft = document.querySelector('.player-lives-left');
+
+let saveLogArray = [];
 
 let playerName = '';
+
+let isBattleInterrupted = 'false';
+
+playerHealthBar.value = 150;
 
 function showScreen(screenKey = 'home') {
   const screenId = screenKey === 'home' ? 'main' : screenKey;
@@ -79,6 +87,7 @@ inputNameSettings.addEventListener('input', () => {
 
 function init() {
   const name = localStorage.getItem('characterName');
+  isBattleInterrupted = localStorage.getItem('isBattleInterrupted');
 
   if (name) {
     updateName(name);
@@ -90,6 +99,16 @@ function init() {
     document.querySelector('header').style.display = 'none';
     document.querySelector('footer').style.display = 'none';
     showScreen('register');
+  }
+  if (isBattleInterrupted === 'true') {
+    playerHealthBar.value = localStorage.getItem('playerHealth');
+    playerLivesLeft.textContent = playerHealthBar.value;
+    saveLogArray = JSON.parse(localStorage.getItem('saveLogArray'));
+    saveLogArray.forEach((string) => {
+      const temp = document.createElement('div');
+      temp.innerHTML = string;
+      fightLog.appendChild(temp);
+    });
   }
 }
 
@@ -173,9 +192,16 @@ const enemysArray = [
 
 let enemyNameForAttackBtn = '';
 let enemyHealthForAttackBtn = 0;
+let randomNumber = 0;
 
 const initEnemy = () => {
-  const randomNumber = Math.floor(Math.random() * enemysArray.length);
+  if (isBattleInterrupted === 'true') {
+    randomNumber = localStorage.getItem('randomNumberEnemy');
+  }
+  else {
+    randomNumber = Math.floor(Math.random() * enemysArray.length);
+    localStorage.setItem('randomNumberEnemy', randomNumber);
+  }
 
   const enemyName = document.createElement('p');
   enemyName.classList.add('enemy-name');
@@ -191,13 +217,19 @@ const initEnemy = () => {
 
   const progress = document.createElement('progress');
   progress.classList.add('enemy-health-bar');
-  progress.value = enemysArray[randomNumber].health;
+
+  if (isBattleInterrupted === 'true') {
+    progress.value = localStorage.getItem('enemyHealth');
+  }
+  else {
+    progress.value = enemysArray[randomNumber].health;
+  }
   progress.max = enemysArray[randomNumber].health;
 
   const healthTextP = document.createElement('p');
   const span = document.createElement('span');
   span.classList.add('lives-left');
-  span.textContent = enemysArray[randomNumber].health;
+  span.textContent = progress.value;
 
   enemyNameForAttackBtn = enemysArray[randomNumber].name;
   enemyHealthForAttackBtn = enemysArray[randomNumber].health;
@@ -252,9 +284,6 @@ defenseOption.forEach(checkbox => {
 
 const attackDefenseArray = ['Head', 'Neck', 'Body', 'Belly', 'Legs'];
 
-const playerHealthBar = document.querySelector('.player-health-bar');
-const playerLivesLeft = document.querySelector('.player-lives-left');
-
 let turnCount = 1;
 
 const normalAttackPower = 10;
@@ -263,8 +292,13 @@ const critAttackPower = 15;
 attackBtn.addEventListener('click', () => {
   if (getComputedStyle(attackBtn).cursor !== 'not-allowed') {
     const turnCountPre = document.createElement('pre');
+    turnCount = Number(localStorage.getItem('turnCount')) + 1;
     turnCountPre.textContent = `=======   Turn: ${turnCount}   =======`;
     fightLog.appendChild(turnCountPre);
+    saveLogArray.push(turnCountPre.outerHTML);
+
+    isBattleInterrupted = 'true';
+    localStorage.setItem('isBattleInterrupted', isBattleInterrupted);
 
     const playerAttackZone = checkRadio().value;
     const playerDefense1 = selectedQueue[0].value;
@@ -306,6 +340,10 @@ attackBtn.addEventListener('click', () => {
         enemyAttack(spiderAttackPower1, spiderAttackZone1, playerDefense1, playerDefense2, enemyNameForAttackBtn);
         enemyAttack(spiderAttackPower2, spiderAttackZone2, playerDefense1, playerDefense2, enemyNameForAttackBtn);
 
+        localStorage.setItem('playerHealth', playerHealthBar.value);
+        localStorage.setItem('enemyHealth', enemy.querySelector('.enemy-health-bar').value);
+        localStorage.setItem('saveLogArray', JSON.stringify(saveLogArray));
+
         winLoseDraw();
         break;
 
@@ -343,6 +381,10 @@ attackBtn.addEventListener('click', () => {
 
         const spacemarineAttackPower = critOrNormalAttack();
         enemyAttack(spacemarineAttackPower, spacemarineAttackZone, playerDefense1, playerDefense2, enemyNameForAttackBtn);
+
+        localStorage.setItem('playerHealth', playerHealthBar.value);
+        localStorage.setItem('enemyHealth', enemy.querySelector('.enemy-health-bar').value);
+        localStorage.setItem('saveLogArray', JSON.stringify(saveLogArray));
 
         winLoseDraw();
         break;
@@ -389,6 +431,10 @@ attackBtn.addEventListener('click', () => {
         const snowTrollAttackPower = critOrNormalAttack();
         enemyAttack(snowTrollAttackPower, snowTrollAttackZone, playerDefense1, playerDefense2, enemyNameForAttackBtn);
 
+        localStorage.setItem('playerHealth', playerHealthBar.value);
+        localStorage.setItem('enemyHealth', enemy.querySelector('.enemy-health-bar').value);
+        localStorage.setItem('saveLogArray', JSON.stringify(saveLogArray));
+
         winLoseDraw();
         break;
     }
@@ -403,7 +449,7 @@ function attackLog(attacker, defender, attackZone, damage) {
     attack.innerHTML = `<strong style="color: darkblue;">${attacker}</strong> attacked <strong style="color: darkblue;">${defender}</strong> to <strong style="color: darkblue;">${attackZone}</strong> and deal <strong>${damage} damage.</strong>`;
   }
   else {
-    const damageElement = document.createElement("strong");
+    const damageElement = document.createElement('strong');
     damageElement.textContent = `${damage} damage.`;
     damageElement.style.color = 'darkred';
     attack.innerHTML = `<strong style="color: darkblue;">${attacker}</strong> attacked <strong style="color: darkblue;">${defender}</strong> to <strong style="color: darkblue;">${attackZone}</strong> and crit `;
@@ -411,6 +457,7 @@ function attackLog(attacker, defender, attackZone, damage) {
   }
   fightLog.appendChild(attack);
   fightLog.scrollTop = fightLog.scrollHeight;
+  saveLogArray.push(attack.outerHTML);
 }
 
 function defenseLog(attacker, defender, attackZone) {
@@ -418,6 +465,8 @@ function defenseLog(attacker, defender, attackZone) {
   attack.innerHTML = `<strong style="color: darkblue;">${attacker}</strong> attacked <strong style="color: darkblue;">${defender}</strong> to <strong style="color: darkblue;">${attackZone}</strong> but ${defender} was able to protect his ${attackZone}.`;
   fightLog.appendChild(attack);
   fightLog.scrollTop = fightLog.scrollHeight;
+  saveLogArray.push(attack.outerHTML);
+
 }
 
 function critAttackLog(attacker, defender, attackZone, damage) {
@@ -425,6 +474,7 @@ function critAttackLog(attacker, defender, attackZone, damage) {
   attack.innerHTML = `<strong style="color: darkblue;">${attacker}</strong> attacked <strong style="color: darkblue;">${defender}</strong> to <strong style="color: darkblue;">${attackZone}</strong> ${defender} tried to block but ${attacker} was very lucky and crit his oppenent for <strong style="color: darkred;">15 damage.</strong>`;
   fightLog.appendChild(attack);
   fightLog.scrollTop = fightLog.scrollHeight;
+  saveLogArray.push(attack.outerHTML);
 }
 
 const critOrNormalAttack = () => {
@@ -454,25 +504,36 @@ function enemyAttack(enemyAttackPower, enemyAttackZone, playerDefense1, playerDe
 }
 
 function winLoseDraw() {
+  localStorage.setItem('turnCount', turnCount);
   if (enemy.querySelector('.enemy-health-bar').value <= 0 && playerHealthBar.value <= 0) {
     alert('Draw!!!');
-    attackBtn.style.opacity = '0.5';
-    attackBtn.style.cursor = 'not-allowed';
+    resetBattle();
   }
   else if (enemy.querySelector('.enemy-health-bar').value <= 0) {
     alert('You win!!!');
-    attackBtn.style.opacity = '0.5';
-    attackBtn.style.cursor = 'not-allowed';
     wins.textContent = Number(wins.textContent) + 1;
     localStorage.setItem('wins', wins.textContent);
+    resetBattle();
   }
   else if (playerHealthBar.value <= 0) {
     alert('You lose!!!');
-    attackBtn.style.opacity = '0.5';
-    attackBtn.style.cursor = 'not-allowed';
     loses.textContent = Number(loses.textContent) + 1;
     localStorage.setItem('loses', loses.textContent);
+    resetBattle();
   }
+}
+
+function resetBattle() {
+  attackBtn.style.opacity = '0.5';
+  attackBtn.style.cursor = 'not-allowed';
+  isBattleInterrupted = 'false';
+  localStorage.setItem('isBattleInterrupted', isBattleInterrupted);
+  localStorage.removeItem('playerHealth');
+  localStorage.removeItem('enemyHealth');
+  localStorage.removeItem('saveLogArray');
+  localStorage.removeItem('randomNumberEnemy');
+  localStorage.removeItem('turnCount');
+  location.reload();
 }
 
 
