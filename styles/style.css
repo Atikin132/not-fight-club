@@ -1,0 +1,361 @@
+@import url("./normalize.css");
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  height: 100%;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1480px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 2px solid black;
+}
+
+.header-menu {
+  display: flex;
+  gap: 10px;
+}
+
+.header-buttons {
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  object-fit: contain;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.home-button {
+  background-image: url("../assets/svg/home.svg");
+}
+
+.profile-button {
+  background-image: url("../assets/svg/profile.svg");
+}
+
+.settings-button {
+  background-image: url("../assets/svg/settings.svg");
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+}
+
+section#main {
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 100%;
+}
+
+.fight-button {
+  padding: 15px 30px;
+  border-radius: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+  justify-self: center;
+}
+
+section#battle {
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.fight-arena {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  flex: 1;
+}
+
+.player-enemy-character {
+  display: flex;
+  justify-self: start;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.health-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.player-health-bar,
+.enemy-health-bar {
+  width: 100%;
+  height: 25px;
+}
+
+progress {
+  -webkit-appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: gray;
+  border-radius: 20px;
+}
+
+progress::-webkit-progress-value {
+  background-color: darkred;
+  border-radius: 20px;
+}
+
+.controls-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-self: center;
+}
+
+.attack-defense {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.attack,
+.defense {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.attack {
+  align-items: flex-end;
+}
+
+.attack-defense-border {
+  border-right: 1px solid black;
+}
+
+.label-atack-defence,
+.input-atack-defence {
+  cursor: pointer;
+}
+
+.attack-button {
+  width: 45%;
+  padding: 15px 30px;
+  border-radius: 10px;
+  border: 1px solid black;
+  cursor: not-allowed;
+  align-self: center;
+  opacity: 0.5;
+}
+
+.fight-log {
+  border-top: 1px solid black;
+  height: 30%;
+  max-height: 400px;
+  width: 100%;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.character-img,
+.character-img-form,
+.enemy-img {
+  width: 300px;
+  height: 350px;
+  border: 1px solid black;
+  border-radius: 20px;
+}
+
+section#profile {
+  padding: 20px;
+  gap: 30px;
+  width: 100%;
+}
+
+.character-container {
+  position: relative;
+}
+
+.edit-character {
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  background-image: url("../assets/svg/edit.svg");
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  object-fit: contain;
+  background-position: center;
+  border-radius: 20px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.profile-results {
+  display: flex;
+  gap: 10px;
+}
+
+.wins-results {
+  color: green;
+}
+
+.loses-results {
+  color: red;
+}
+
+.form-overlay {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.character-form {
+  position: absolute;
+  background-color: gray;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 10px;
+  width: 80%;
+  height: 50%;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+.cross {
+  width: 24px;
+  height: 24px;
+  background-repeat: no-repeat;
+  object-fit: contain;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: url("../assets/svg/close.svg");
+  position: absolute;
+  right: 20px;
+}
+
+.character-form-container {
+  position: relative;
+  height: 350px;
+}
+
+.confirm-character {
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  background-image: url("../assets/svg/check_circle.svg");
+  width: 40px;
+  height: 40px;
+  background-repeat: no-repeat;
+  object-fit: contain;
+  background-position: center;
+  border-radius: 20px;
+  border: 1px solid white;
+  cursor: pointer;
+}
+
+
+section#settings {
+  padding: 20px;
+  gap: 10px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.edit-button-settings {
+  padding: 2px 7px;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.input-name-settings {
+  display: none;
+}
+
+section#register {
+  gap: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.create-character-button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px solid black;
+  cursor: pointer;
+  justify-self: center;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-top: 2px solid black;
+}
+
+.screen {
+  display: none;
+}
+
+.active {
+  display: flex;
+}

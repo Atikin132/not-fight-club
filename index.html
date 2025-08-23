@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Not Fight Club</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="icon" href="assets/favicon.ico">
+</head>
+
+<body>
+  <header>
+    <p class="page-title">Main</p>
+    <nav>
+      <ul class="header-menu">
+        <li><button class="home-button header-buttons" onclick="showScreen('home')"></button></li>
+        <li><button class="profile-button header-buttons" onclick="showScreen('profile')"></button></li>
+        <li><button class="settings-button header-buttons" onclick="showScreen('settings')"></button></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section id="main" class="screen">
+      <button class="fight-button" onclick="showScreen('battle')">Fight!</button>
+    </section>
+    <section id="battle" class="screen">
+      <div class="fight-arena">
+        <div class="player-enemy-character">
+          <p class="player-name">111</p>
+          <img src="./assets/img/character/default.jpg" alt="Character" class="character-img">
+          <div class="health-container">
+            <progress class="player-health-bar" value="150" max="150"></progress>
+            <p><span class="player-lives-left">150</span>/150</p>
+          </div>
+        </div>
+        <div class="controls-panel">
+          <p>Please pick 1 Attack zone and 2 Defence zones</p>
+          <div class="attack-defense">
+            <div class="attack">
+              <p>Attack Zones</p>
+              <label class="label-atack-defence">
+                Head
+                <input type="radio" name="attackOption" value="Head" class="input-atack-defence">
+              </label>
+              <label class="label-atack-defence">
+                Neck
+                <input type="radio" name="attackOption" value="Neck" class="input-atack-defence">
+              </label>
+              <label class="label-atack-defence">
+                Body
+                <input type="radio" name="attackOption" value="Body" class="input-atack-defence">
+              </label>
+              <label class="label-atack-defence">
+                Belly
+                <input type="radio" name="attackOption" value="Belly" class="input-atack-defence">
+              </label>
+              <label class="label-atack-defence">
+                Legs
+                <input type="radio" name="attackOption" value="Legs" class="input-atack-defence">
+              </label>
+            </div>
+            <div class="attack-defense-border"></div>
+            <div class="defense">
+              <p>Defence Zones</p>
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Head"> Head</label>
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Neck"> Neck</label>
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Body"> Body</label>
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Belly"> Belly</label>
+              <label class="label-atack-defence"><input type="checkbox" class="input-atack-defence" data-defence-option
+                  value="Legs"> Legs</label>
+            </div>
+          </div>
+          <button class="attack-button" data-attack-button>Attack!</button>
+        </div>
+        <div class="player-enemy-character" data-enemy></div>
+      </div>
+      <div class="fight-log" data-fight-log>
+
+      </div>
+    </section>
+    <section id="profile" class="screen">
+      <div class="character-container" data-character-container>
+        <img src="./assets/img/character/default.jpg" alt="Character" class="character-img" data-img-profile>
+        <div class="edit-character" data-edit-character></div>
+      </div>
+      <div class="profile-info">
+        <p class="profile-name">111</p>
+        <div class="profile-results">
+          <p class="wins-results">Wins: <span data-wins>0</span></p>
+          <p class="loses-results">Loses: <span data-loses>0</span></p>
+        </div>
+      </div>
+      <div class="form-overlay" data-form-overlay></div>
+      <form class="character-form hidden" data-characters-form>
+        <div class="character-form-container" data-character-form-container>
+          <img src="./assets/img/character/default.jpg" alt="Character" class="character-img-form" data-img-form1>
+          <div class="confirm-character" data-confirm-character1></div>
+        </div>
+        <div class="character-form-container" data-character-form-container>
+          <img src="./assets/img/character/avatar1.png" alt="Character" class="character-img-form" data-img-form2>
+          <div class="confirm-character" data-confirm-character2></div>
+        </div>
+        <div class="character-form-container" data-character-form-container>
+          <img src="./assets/img/character/avatar2.jpg" alt="Character" class="character-img-form" data-img-form3>
+          <div class="confirm-character" data-confirm-character3></div>
+        </div>
+        <div class="character-form-container" data-character-form-container>
+          <img src="./assets/img/character/avatar3.jpg" alt="Character" class="character-img-form" data-img-form4>
+          <div class="confirm-character" data-confirm-character4></div>
+        </div>
+        <div class="cross" data-cross-form></div>
+      </form>
+    </section>
+    <section id="settings" class="screen">
+      <p>Profile Name: </p>
+      <div class="profile-name-settings" data-profile-name-settings>111</div>
+      <form data-form-name-settings>
+        <input type="text" maxlength="15" class="input-name-settings" data-input-name-settings required>
+      </form>
+      <button class="edit-button-settings" onclick="editNickName()" data-edit-button>Edit</button>
+    </section>
+    <section id="register" class="screen">
+      <h2>Create Your Character</h2>
+      <form class="register-form">
+        <label>
+          Character Name <br>
+          <input type="text" name="name" required data-input-register>
+        </label>
+        <button type="submit" class="create-character-button">Create Character</button>
+      </form>
+    </section>
+  </main>
+  <footer>
+    <div class="footer-container">
+      <p>© 2025</p>
+      <a href="https://rs.school/" target="_blank">The Rolling Scopes School</a>
+      <a href="https://github.com/Atikin132" target="_blank">Atikin132</a>
+    </div>
+    </div>
+  </footer>
+  <script src="./main.js"></script>
+</body>
+
+</html>
